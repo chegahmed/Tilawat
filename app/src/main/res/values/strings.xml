@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Tilawa</string>
+    <string name="txt_age">سورة المطففين</string>
+    <string name="txt_name">القارئ مصطفى اسماعيل</string>
+    <string name="sourat_name" >Al-Mutaffifin</string>
+    <string name="ayah_name">عدد اياتها: 36 </string>
+    <string name="localtion_txt"> مكية ,</string>
+</resources>
