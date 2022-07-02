@@ -2,6 +2,8 @@ package com.example.tilawat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.AssetFileDescriptor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -11,6 +13,11 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.tilawat.Data.DatabaseHandler;
+import com.example.tilawat.Model.QuranSurah;
+import com.example.tilawat.Util.Constants;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -19,15 +26,19 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     MediaPlayer mediaPlayer;
     ImageView artistImage;
-    TextView leftTime,rightTime;
+    TextView leftTime,rightTime,arabic,latin,location,ayah;
     SeekBar seekBar;
     Button prevButton,nextButton,playButton;
     Thread thread;
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        db = new DatabaseHandler(this);
+
         setUpUI();
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -60,7 +71,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public  void setUpUI(){
 
         mediaPlayer =new MediaPlayer();
-        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.music);
+     //   mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.music);
 
         artistImage = (ImageView) findViewById(R.id.ImageId);
         leftTime = (TextView) findViewById(R.id.leftTime);
@@ -69,10 +80,52 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         prevButton =(Button) findViewById(R.id.prevButton);
         nextButton = (Button) findViewById(R.id.nextButton);
         playButton = (Button) findViewById(R.id.playButton);
+        arabic  = (TextView) findViewById(R.id.sourhArId);
+        latin  = (TextView) findViewById(R.id.sourhEnId);
+        location  = (TextView) findViewById(R.id.locationId);
+        ayah  = (TextView) findViewById(R.id.ayahId);
 
         prevButton.setOnClickListener(this);
         playButton.setOnClickListener(this);
         nextButton.setOnClickListener(this);
+
+        Bundle bundle = getIntent().getExtras();
+
+        if ( bundle != null ) {
+
+            int id =  bundle.getInt("id");
+            // Get items from database
+            QuranSurah quranSurah = db.getQuranSurah(id);
+
+            arabic.setText(bundle.getString("arabic"));
+            latin.setText(bundle.getString("latin"));
+            location.setText(quranSurah.getLocaltion());
+            if(quranSurah.getLocaltion() == "1"){
+                location.setText(Constants.MAKIYA);
+            }else{
+                location.setText(Constants.MADANYA);
+            }
+            ayah.setText(Constants.NOMBRE_AYAH +quranSurah.getAyah());
+            String nameFile = quranSurah.getNameFile();
+
+
+            try {
+                AssetFileDescriptor afd = getAssets().openFd("ghamdi/"+nameFile);
+                mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                mediaPlayer.prepare();
+             // afd.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+        }
+
+
+
+
     }
 
     @Override

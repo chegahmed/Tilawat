@@ -74,6 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     Intent intent = new Intent(context, DetailActivity.class);
                     intent.putExtra("arabic", grocery.getArabic());
                     intent.putExtra("latin", grocery.getLatin());
+                    intent.putExtra("id", grocery.getId());
 
                     context.startActivity(intent);
 

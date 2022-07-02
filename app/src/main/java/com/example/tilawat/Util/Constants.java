@@ -15,4 +15,12 @@ public class Constants {
     public static final String KEY_SAJDA ="sajda";
     public static final String KEY_AYAH="ayah";
     public static final String KEY_NAME_FILE="nameFile";
+
+//static wordings
+    public static final String NOMBRE_AYAH=" عدد اياتها:";
+    public static final String MADANYA=" مدنية ,";
+    public static final String MAKIYA=" مكية ,";
+
+
+
 }

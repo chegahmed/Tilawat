@@ -10,6 +10,20 @@ public class QuranSurah {
     private int ayah ;
     private String nameFile;
 
+    public QuranSurah(int id, String arabic, String latin, String english, String localtion, String sajda, int ayah, String nameFile) {
+        this.id = id;
+        this.arabic = arabic;
+        this.latin = latin;
+        this.english = english;
+        this.localtion = localtion;
+        this.sajda = sajda;
+        this.ayah = ayah;
+        this.nameFile = nameFile;
+    }
+
+    public QuranSurah() {
+    }
+
     public int getId() {
         return id;
     }

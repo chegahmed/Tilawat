@@ -1237,4 +1237,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
+    //get QuranSurah by id
+    public QuranSurah getQuranSurah(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.query(Constants.TABLE_NAME, new String[]{
+                        Constants.KEY_ID, Constants.KEY_ARABIC, Constants.KEY_LATIN,Constants.KEY_ENGLISH,
+                        Constants.KEY_LOCATION, Constants.KEY_SAJDA, Constants.KEY_AYAH,Constants.KEY_NAME_FILE}, Constants.KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        QuranSurah quranSurah = new QuranSurah(Integer.parseInt(cursor.getString(0)), cursor.getString(1),cursor.getString(2),cursor.getString(3),
+        cursor.getString(4), cursor.getString(5),Integer.parseInt(cursor.getString(6)),cursor.getString(7));
+
+        return quranSurah;
+    }
+
+
 }
